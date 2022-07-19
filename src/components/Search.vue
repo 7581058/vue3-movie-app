@@ -1,13 +1,15 @@
 <template>
   <div class="container">
-    <input v-model="title" class="form-control" type="text" placeholder="Search fro Movies, Series & more" />
+    <input v-model="title" class="form-control" type="text" placeholder="Search fro Movies, Series & more" @keyup.enter="apply"/>
     <div class="selects">
       <select v-for="filter in filters" v-model="$data[filter.name]" :key="filter.name" class="form-select">
         <option v-if="filter.name === 'year'" value="">All Years</option>
         <option v-for="item in filter.items" :key="item">{{ item }}</option>
       </select>
     </div>
+    <button class="btn btn-primary" @click="apply">Apply</button>
   </div>
+  
 </template>
 
 <script>
@@ -40,6 +42,11 @@ export default {
         }
       ]
     }
+  },
+  methods: {
+    apply() {
+
+    }
   }
 }
 </script>
@@ -63,6 +70,12 @@ export default {
         margin-right: 0;
         }
       }
+    }
+    .btn {
+      width: 120px;
+      height: 50px;
+      font-weight: 700;
+      flex-shrink: 0;
     }
   }
 </style>
