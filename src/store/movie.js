@@ -4,7 +4,9 @@ import _uniqBy from 'lodash/uniqBy'
 export default {
   namespaced: true,
   state: () => ({
-    movies: []
+    movies: [],
+    message: '',
+    loading: false
   }),
   getters: {},
   mutations: {
@@ -19,31 +21,60 @@ export default {
   },
   actions: {
     async searchMovies({ state, commit }, payload) {
-      const { title, type, number, year } = payload
-      const OMDB_API_KEY = '14c167f8'
-      const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=1`)
-      const { Search, totalResults } = res.data 
-      commit('updateState', {
-        movies: _uniqBy(Search, 'imdbID')
-      })
+      try {
+        const res = await _fetchMovie({
+        ...payload,
+        page: 1
+        })
+        const { Search, totalResults } = res.data 
+        commit('updateState', {
+          movies: _uniqBy(Search, 'imdbID')
+        })
 
-      const total = parseInt(totalResults, 10)
-      const pageLength = Math.ceil(total / 10) 
-      
-      if(pageLength > 1) {
-        for(let i = 2; i <= pageLength; i += 1) {
-          if ( i > (number / 10)) break
-          
-          const res = await axios.get(`https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${i}`)
-          const { Search } = res.data
-          commit('updateState', {
-            movies: [
-              ...state.movies, 
-              ..._uniqBy(Search, 'imdbID')
-            ]
-          }) 
+        const total = parseInt(totalResults, 10)
+        const pageLength = Math.ceil(total / 10) 
+        
+        if(pageLength > 1) {
+          for(let i = 2; i <= pageLength; i += 1) {
+            if ( i > (payload.number / 10)) break
+            const res = await _fetchMovie({
+              ...payload,
+              page: i 
+            })
+            const { Search } = res.data
+            commit('updateState', {
+              movies: [
+                ...state.movies, 
+                ..._uniqBy(Search, 'imdbID')
+              ]
+            }) 
+          }
         }
+      } catch (message) {
+        commit('updateState', {
+          movies: [],
+          message
+        })
       }
     }
   }
+}
+
+function _fetchMovie(payload) {
+  const { title, type, year, page} = payload
+  const OMDB_API_KEY = '14c167f8'
+  const url = `https://www.omdbapi.com/?apikey=${OMDB_API_KEY}&s=${title}&type=${type}&y=${year}&page=${page}`
+
+  return new Promise((resolve, reject) => {
+    axios.get(url)
+      .then(res => {
+        if(res.data.Error) {
+          reject(res.data.Error)
+        }
+        resolve(res)
+      })
+      .catch(err => {
+        reject(err.message)
+      })
+  })
 }
