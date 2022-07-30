@@ -2,7 +2,9 @@
   <div class="container">
     <div class="inner">
       <div class="message">{{ message }}</div>
-      <MovieItem v-for="moviez in movies" :key="moviez.imdbID" :movie="moviez" />
+      <div class="movies">
+        <MovieItem v-for="moviez in movies" :key="moviez.imdbID" :movie="moviez" />
+      </div>
     </div>
   </div>
 </template>
@@ -24,3 +26,13 @@ export default {
   }
 }
 </script>
+
+<style lang="scss" scoped>
+.container {
+  .movies {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}
+</style>
