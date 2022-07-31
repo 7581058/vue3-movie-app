@@ -10,7 +10,7 @@
     font-family: 'Oswald', sans-serif;
     font-weight: bold;
     font-size: 20px;
-    color: $black;
+    color: $red-100;
     text-decoration: none;
     &:hover {
       color: $black;

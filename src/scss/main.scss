@@ -1,5 +1,5 @@
 // Default variable overrides
-$primary: #8421db;
+$primary: #a31d1d;
 
 // Required
 @import "../../node_modules/bootstrap/scss/functions";
@@ -9,3 +9,6 @@ $primary: #8421db;
 
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
+body {
+  background-color: #171717;
+}

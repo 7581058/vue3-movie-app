@@ -22,12 +22,13 @@
     line-height: 1;
     font-family: 'Oswald', sans-serif;
     font-size: 80px;
+    color: $red-100;
     span {
       color: $primary;
     }
   }
   p {
     margin: 30px 0;
-    color: $gray-600;
+    color: $red-100;
   }
 </style>
