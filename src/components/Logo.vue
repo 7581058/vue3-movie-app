@@ -13,7 +13,7 @@
     color: $red-100;
     text-decoration: none;
     &:hover {
-      color: $black;
+      color: $red-100;
     }
     span {
       color: $primary;
