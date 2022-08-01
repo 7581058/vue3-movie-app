@@ -25,7 +25,7 @@ export default {
 <style lang="scss" scoped>
 @import "~/scss/main";
 .movie {
-  $width: 168px;
+  $width: 200px;
   width: $width;
   height: calc($width * 3 / 2);
   margin: 10px;

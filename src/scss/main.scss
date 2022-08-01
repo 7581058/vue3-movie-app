@@ -1,5 +1,6 @@
 // Default variable overrides
 $primary: #a31d1d;
+$secondary: #171717;
 
 $container-max-widths: (
   sm: 540px,
@@ -18,5 +19,5 @@ $container-max-widths: (
 @import "../../node_modules/bootstrap/scss/bootstrap";
 
 body {
-  background-color: #171717;
+  background-color: $secondary;
 }
