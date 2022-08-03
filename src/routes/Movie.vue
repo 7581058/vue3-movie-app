@@ -1,17 +1,31 @@
 <template>
   <div class="container">
-    <div class="skeletons">
-      <div class="skeleton poster"></div>
+    <template v-if="loading">
+      <div class="skeletons">
+        <div class="skeleton poster"></div>
+        <div class="specs">
+          <div class="skeleton title"></div>
+          <div class="skeleton spec"></div>
+          <div class="skeleton plot"></div>
+          <div class="skeleton etc"></div>
+          <div class="skeleton etc"></div>
+          <div class="skeleton etc"></div>
+        </div>
+      </div>
+      <Loader :size="3" :z-index="9" fixed />
+    </template>
+    <div v-else class="movie-details">
+      <div class="poster"></div>
       <div class="specs">
-        <div class="skeleton title"></div>
-        <div class="skeleton spec"></div>
-        <div class="skeleton plot"></div>
-        <div class="skeleton etc"></div>
-        <div class="skeleton etc"></div>
-        <div class="skeleton etc"></div>
+        <div class="title">{{ theMovie.Title }}</div>
+        <div class="labels">
+          <span>{{ theMovie.Released }}</span>
+          <span>{{ theMovie.Runtime }}</span>
+          <span>{{ theMovie.Country }}</span>
+        </div>
+        <div class="plot">{{ theMovie.Plot }}</div>
       </div>
     </div>
-    <Loader :size="3" :z-index="9" fixed />
   </div>
 </template>
 
@@ -22,19 +36,30 @@ export default {
   components: { 
     Loader 
   },
+  computed: {
+    theMovie() {
+      return this.$store.state.movie.theMovie
+    },
+    loading() {
+      return this.$store.state.movie.loading
+    }
+  },
   created() {
-    console.log(this.$route);
+    // console.log(this.$route);
     this.$store.dispatch("movie/searchMovieWithId", {
     id: this.$route.params.movieId
     });
   },
     
 }
+
 </script>
 
 <style lang="scss" scoped>
+@import "~/scss/main";
 .container {
   padding-top: 40px;
+  color: $red-100;
 }
 
 .skeletons {
