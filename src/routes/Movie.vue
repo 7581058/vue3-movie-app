@@ -15,7 +15,7 @@
       <Loader :size="3" :z-index="9" fixed />
     </template>
     <div class="movie-details">
-      <div :style="{ backgroundImage: `url(${theMovie.Poster})` }" class="poster"></div>
+      <div :style="{ backgroundImage: `url(${requestDiffSizeImage(theMovie.Poster)})` }" class="poster"></div>
       <div class="specs">
         <div class="title">{{ theMovie.Title }}</div>
         <div class="labels">
@@ -28,7 +28,7 @@
           <h3>Ratings</h3>
           <div class="rating-wrap">
             <div v-for="{ Source: name, Value: score } in theMovie.Ratings" :key="name" :title="name" class="rating">
-              <img :src="``" :alt="name">
+              <img :src="`https://raw.githubusercontent.com/7581058/vue3-movie-app/main/src/assets/${name}.png`" :alt="name">
               <span>{{ score }}</span>
             </div>
           </div>
@@ -75,7 +75,11 @@ export default {
     id: this.$route.params.movieId
     });
   },
-    
+  methods: {
+    requestDiffSizeImage(url, size = 700) {
+      return url.replace('SX300', `SX${size}`)
+    }
+  }  
 }
 
 </script>
@@ -161,7 +165,19 @@ export default {
       margin-top: 20px;
     }
     .ratings {
-
+      .rating-wrap {
+        display: flex;
+        .rating {
+          display: flex;
+          align-items: center;
+          margin-right: 32px;
+          img {
+            height: 30px;
+            flex-shrink: 0;
+            margin-right: 6px;
+          }
+        }
+      }
     }
     h3 {
       margin: 24px 0 6px;
