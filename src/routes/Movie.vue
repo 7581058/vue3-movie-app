@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <template v-if="loading">
+    <template>
       <div class="skeletons">
         <div class="skeleton poster"></div>
         <div class="specs">
@@ -14,8 +14,8 @@
       </div>
       <Loader :size="3" :z-index="9" fixed />
     </template>
-    <div v-else class="movie-details">
-      <div class="poster"></div>
+    <div class="movie-details">
+      <div :style="{ backgroundImage: `url(${theMovie.Poster})` }" class="poster"></div>
       <div class="specs">
         <div class="title">{{ theMovie.Title }}</div>
         <div class="labels">
@@ -24,6 +24,31 @@
           <span>{{ theMovie.Country }}</span>
         </div>
         <div class="plot">{{ theMovie.Plot }}</div>
+        <div class="ratings">
+          <h3>Ratings</h3>
+          <div class="rating-wrap">
+            <div v-for="{ Source: name, Value: score } in theMovie.Ratings" :key="name" :title="name" class="rating">
+              <img :src="``" :alt="name">
+              <span>{{ score }}</span>
+            </div>
+          </div>
+        </div>
+        <div>
+          <h3>Actors</h3>
+          {{ theMovie.Actors }}
+        </div>
+        <div>
+          <h3>Director</h3>
+          {{ theMovie.Director }}
+        </div>
+        <div>
+          <h3>Production</h3>
+          {{ theMovie.Production }}
+        </div>
+        <div>
+          <h3>Genre</h3>
+          {{ theMovie.Genre }}
+        </div>
       </div>
     </div>
   </div>
@@ -59,7 +84,6 @@ export default {
 @import "~/scss/main";
 .container {
   padding-top: 40px;
-  color: $red-100;
 }
 
 .skeletons {
@@ -94,6 +118,56 @@ export default {
       width: 50%;
       height: 50px;
       margin-top: 20px;
+    }
+  }
+}
+
+.movie-details {
+  display: flex;
+  color: $red-100;
+  .poster {
+    width: 500px;
+    height: calc(500px * 3 / 2);
+    margin-right: 70px;
+    border-radius: 10px;
+    background-color: $Info;
+    background-size: cover;
+    background-position: center;
+    flex-shrink: 0;
+  }
+  .specs {
+    flex-grow: 1;
+    .title {
+      color: $primary;
+      font-family: 'Oswald', sans-serif;
+      font-size: 70px;
+      line-height: 1;
+      margin-bottom: 30px;
+    }
+    .labels {
+      color: $white;
+      font-weight: 700;
+      span {
+        &::after {
+          content: "\00b7";
+          margin: 0 6px;
+        }
+        &:last-child::after {
+          display: none;
+        }
+      }
+    }
+    .plot {
+      margin-top: 20px;
+    }
+    .ratings {
+
+    }
+    h3 {
+      margin: 24px 0 6px;
+      color: $primary;
+      font-family: "Oswald", sans-serif;
+      font-size: 20px;
     }
   }
 }

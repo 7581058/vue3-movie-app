@@ -38,7 +38,7 @@ export default {
 .container {
   margin-top: 30px;
   .inner {
-    background-color: #1c1a1a;
+    background-color: $Info;
     padding: 10px 0;
     border-radius: 4px;
     text-align: center;
