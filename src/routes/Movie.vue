@@ -15,7 +15,9 @@
       <Loader :size="3" :z-index="9" fixed />
     </template>
     <div class="movie-details">
-      <div :style="{ backgroundImage: `url(${requestDiffSizeImage(theMovie.Poster)})` }" class="poster"></div>
+      <div :style="{ backgroundImage: `url(${requestDiffSizeImage(theMovie.Poster)})` }" class="poster">
+      <Loader v-if="imageLoading" absolute/>
+      </div>
       <div class="specs">
         <div class="title">{{ theMovie.Title }}</div>
         <div class="labels">
@@ -61,6 +63,11 @@ export default {
   components: { 
     Loader 
   },
+  data() {
+    return {
+      imageLoading: true
+    }
+  },
   computed: {
     theMovie() {
       return this.$store.state.movie.theMovie
@@ -70,14 +77,22 @@ export default {
     }
   },
   created() {
-    // console.log(this.$route);
     this.$store.dispatch("movie/searchMovieWithId", {
     id: this.$route.params.movieId
     });
   },
   methods: {
     requestDiffSizeImage(url, size = 700) {
-      return url.replace('SX300', `SX${size}`)
+      if (!url || url === 'N/A') {
+        this.imageLoading = false
+        return ''
+      }
+      const src = url.replace('SX300', `SX${size}`)
+      this.$loadImage(src)
+        .then(() => {
+          this.imageLoading = false
+        })
+      return src
     }
   }  
 }
@@ -97,6 +112,7 @@ export default {
     width: 500px;
     height: calc(500px * 3 / 2);
     margin-right: 70px;
+    position: relative;
   }
   .specs {
     flex-grow: 1;
