@@ -1,6 +1,6 @@
 <template>
   <div class="container">
-    <template>
+    <template v-if="loading">
       <div class="skeletons">
         <div class="skeleton poster"></div>
         <div class="specs">
@@ -14,7 +14,7 @@
       </div>
       <Loader :size="3" :z-index="9" fixed />
     </template>
-    <div class="movie-details">
+    <div v-else class="movie-details">
       <div :style="{ backgroundImage: `url(${requestDiffSizeImage(theMovie.Poster)})` }" class="poster">
       <Loader v-if="imageLoading" absolute/>
       </div>
