@@ -11,6 +11,11 @@ $container-max-widths: (
   xxl: 1364px 
 );
 
+//220817 스피너 오류로 추가 
+.text-red {
+  color: $primary
+}
+
 // Required
 @import "../../node_modules/bootstrap/scss/functions";
 @import "../../node_modules/bootstrap/scss/variables";
